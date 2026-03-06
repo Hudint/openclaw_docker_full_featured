@@ -1,9 +1,8 @@
-#!/usr/bin/env bash
+﻿#!/bin/bash
 set -e
 
 # ─── npm/pnpm ────────────────────────────────────────────────
-mkdir -p /home/node/.npm-global /home/node/.local/share/pnpm
-npm config set prefix /home/node/.npm-global
+# npm globals install to /usr/local (permissions fixed in root.sh)
 
 # Global npm packages
 npm i -g @steipete/summarize       # summarize skill
@@ -11,7 +10,6 @@ npm i -g clawhub                   # clawhub skill
 npm i -g mcporter                  # mcporter skill
 npm i -g @steipete/oracle          # oracle skill
 npm i -g @xdevplatform/xurl        # xurl skill
-ln -s /home/node/.npm-global/bin/summarize /usr/local/bin/summarize
 
 # ─── Homebrew ─────────────────────────────────────────────────
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -40,8 +38,7 @@ brew install ffmpeg                          # video-frames, songsee skills
 # NOTE: sherpa-onnx-tts skipped (requires manual runtime/model download)
 
 # ─── Go ───────────────────────────────────────────────────────
-mkdir -p /home/node/go
-export GOPATH="/home/node/go"
+export GOPATH="/opt/tools/go"
 export PATH="/usr/local/go/bin:$GOPATH/bin:$PATH"
 
 # Skill dependencies (Go)
@@ -52,10 +49,13 @@ go install github.com/steipete/sonoscli/cmd/sonos@latest          # sonoscli ski
 go install github.com/steipete/wacli/cmd/wacli@latest             # wacli skill
 
 # ─── uv (Python) ─────────────────────────────────────────────
-curl -LsSf https://astral.sh/uv/install.sh | sh
-export PATH="$HOME/.local/bin:$PATH"
+UV_INSTALL_DIR="/opt/tools/uv/bin" curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="/opt/tools/uv/bin:$PATH"
 
 # Skill dependencies (uv/Python)
+# Install tools to /opt/tools so they survive /home/node volume mounts
+export UV_TOOL_BIN_DIR="/opt/tools/uv/bin"
+export UV_TOOL_DIR="/opt/tools/uv/tools"
 uv tool install nano-pdf                     # nano-pdf skill
 
 # ─── Cleanup caches ──────────────────────────────────────────

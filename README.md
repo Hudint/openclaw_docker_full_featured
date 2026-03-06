@@ -114,6 +114,22 @@ Tool configurations and auth tokens are lost when the container is removed.
 **Recommended:** Mount the entire `node` home directory as a single volume.
 This covers all tool configs at once and simplifies the setup.
 
+Build-time tool binaries (Go, npm, Homebrew, uv) are installed to `/opt/tools`
+and `/home/linuxbrew`, so they are **not affected** by the volume mount and will
+always reflect the current image version. Tools you install yourself at runtime
+go to `/home/node` and persist via the volume.
+
+```bash
+docker run -v openclaw-home:/home/node ghcr.io/hudint/openclaw_docker_full_featured:latest
+```
+
+Or in `docker-compose.yml`:
+
+```yaml
+volumes:
+  - openclaw-home:/home/node
+```
+
 Below is a reference of the individual config paths if you prefer fine-grained
 mounts:
 
