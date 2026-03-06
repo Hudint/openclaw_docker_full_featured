@@ -3,6 +3,12 @@
 Openclaw Docker Image with pre-configured environment, development tools, and
 built-in skill dependencies.
 
+## Image
+
+```
+ghcr.io/hudint/openclaw_docker_full_featured:latest
+```
+
 ## Build
 
 ### Local
