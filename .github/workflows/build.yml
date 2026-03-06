@@ -31,8 +31,8 @@ jobs:
           echo "Base image digest: $BASE_DIGEST"
           echo "base_digest=$BASE_DIGEST" >> "$GITHUB_OUTPUT"
 
-          # Get digest stored in our last build (from image label)
-          OUR_DIGEST=$(docker manifest inspect ${{ env.IMAGE_NAME }}:latest 2>/dev/null | jq -r '.manifests[0].annotations["base.digest"] // "none"' 2>/dev/null || echo "none")
+          # Get digest stored in our last build (from image config label)
+          OUR_DIGEST=$(skopeo inspect "docker://${IMAGE_NAME}:latest" 2>/dev/null | jq -r '.Labels["base.digest"] // "none"' 2>/dev/null || echo "none")
           echo "Our stored digest: $OUR_DIGEST"
           echo "our_digest=$OUR_DIGEST" >> "$GITHUB_OUTPUT"
 
