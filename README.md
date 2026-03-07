@@ -99,12 +99,18 @@ Mount two volumes so all installed tools and configs persist across container
 restarts:
 
 - `/home/node` — npm, Go, uv packages + all tool configs
-- `/home/linuxbrew` — Homebrew and all brew-installed packages
+- `/home/linuxbrew/.linuxbrew` — Homebrew and all brew-installed packages
+
+> **Note:** `/home/linuxbrew/.linuxbrew` must be a **named volume**. Docker
+> automatically copies the Homebrew installation from the image into a new named
+> volume on first start. With a bind mount the directory would be empty and
+> Homebrew would be missing. For `/home/node` both named volumes and bind mounts
+> work fine.
 
 ```yaml
 volumes:
     - openclaw-home:/home/node
-    - openclaw-brew:/home/linuxbrew
+    - openclaw-brew:/home/linuxbrew/.linuxbrew
 ```
 
 Config paths reference:
