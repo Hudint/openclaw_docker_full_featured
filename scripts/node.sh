@@ -19,21 +19,21 @@ export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 # Skill dependencies (Homebrew)
-brew tap steipete/tap
-brew install 1password-cli                   # 1password skill (bin: op)
-brew install gemini-cli                      # gemini skill
-brew install gh                              # github, gh-issues skills
-brew install himalaya                        # himalaya skill
-brew install steipete/tap/gifgrep            # gifgrep skill
-brew install steipete/tap/gogcli             # gog skill
-brew install steipete/tap/goplaces           # goplaces skill
-brew install steipete/tap/ordercli           # ordercli skill
-brew install steipete/tap/sag                # sag skill
-brew install steipete/tap/songsee            # songsee skill
-brew install steipete/tap/spogo              # spotify-player skill
-brew install yakitrak/yakitrak/obsidian-cli  # obsidian skill
-brew install openhue/cli/openhue-cli         # openhue skill
-brew install ffmpeg                          # video-frames, songsee skills
+brew tap steipete/tap 2>&1
+brew install 1password-cli 2>&1                   # 1password skill (bin: op)
+brew install gemini-cli 2>&1                      # gemini skill
+brew install gh 2>&1                              # github, gh-issues skills
+brew install himalaya 2>&1                        # himalaya skill
+brew install steipete/tap/gifgrep 2>&1            # gifgrep skill
+brew install steipete/tap/gogcli 2>&1             # gog skill
+brew install steipete/tap/goplaces 2>&1           # goplaces skill
+brew install steipete/tap/ordercli 2>&1           # ordercli skill
+brew install steipete/tap/sag 2>&1                # sag skill
+brew install steipete/tap/songsee 2>&1            # songsee skill
+brew install steipete/tap/spogo 2>&1              # spotify-player skill
+brew install yakitrak/yakitrak/obsidian-cli 2>&1  # obsidian skill
+brew install openhue/cli/openhue-cli 2>&1         # openhue skill
+brew install ffmpeg 2>&1                          # video-frames, songsee skills
 # NOTE: openai-whisper skipped (very large — pulls full Python + ML models)
 # NOTE: sherpa-onnx-tts skipped (requires manual runtime/model download)
 
@@ -49,7 +49,8 @@ go install github.com/steipete/sonoscli/cmd/sonos@latest          # sonoscli ski
 go install github.com/steipete/wacli/cmd/wacli@latest             # wacli skill
 
 # ─── uv (Python) ─────────────────────────────────────────────
-UV_INSTALL_DIR="/opt/tools/uv/bin" curl -LsSf https://astral.sh/uv/install.sh | sh
+export UV_INSTALL_DIR="/opt/tools/uv/bin"
+curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="/opt/tools/uv/bin:$PATH"
 
 # Skill dependencies (uv/Python)
