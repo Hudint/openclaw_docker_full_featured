@@ -1,0 +1,48 @@
+#!/bin/bash
+set -e
+
+echo "Starting wacli sync daemon..."
+echo ""
+
+# ─── Environment setup ───────────────────────────────────────
+export GOPATH="$HOME/go"
+export PATH="/usr/local/go/bin:$GOPATH/bin:$HOME/.local/bin:$PATH"
+
+# ─── Check if wacli is installed ─────────────────────────────
+echo "── Checking if wacli is installed..."
+if ! command -v wacli &>/dev/null; then
+  echo "❌ Error: wacli is not installed"
+  echo "Please run 'install-skills' first to install wacli"
+  exit 1
+fi
+
+echo "✓ wacli is installed"
+echo ""
+
+# ─── Authentication check ────────────────────────────────────
+echo "── Checking authentication status..."
+if ! wacli doctor | grep -q "AUTHENTICATED.*true"; then
+  echo "❌ Error: Not authenticated with wacli"
+  echo "Please run 'wacli auth' first to authenticate"
+  exit 1
+fi
+
+echo "✓ Authentication verified"
+echo ""
+
+# ─── Start sync daemon ───────────────────────────────────────
+echo "── Starting wacli sync (will run continuously)..."
+echo "   Press Ctrl+C to stop"
+echo ""
+
+while true; do
+  if wacli sync; then
+    echo ""
+    echo "── wacli sync completed, restarting in 5 seconds..."
+    sleep 5
+  else
+    echo ""
+    echo "── wacli sync failed, retrying in 10 seconds..."
+    sleep 10
+  fi
+done
