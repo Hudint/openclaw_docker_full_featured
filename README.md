@@ -39,6 +39,32 @@ everything persists.
 | Go       | blogwatcher, blu (blucli), eightctl, sonos (sonoscli), wacli                                                                         |
 | uv       | nano-pdf                                                                                                                             |
 
+### sync-wacli (automatic WhatsApp sync)
+
+The container includes an optional automatic WhatsApp sync daemon. When enabled,
+it continuously runs `wacli sync` in the background, automatically restarting on
+failures.
+
+**Enable auto-sync:**
+
+```bash
+docker run -e AUTO_SYNC_WACLI=true ...
+```
+
+Or uncomment the line in the Dockerfile:
+
+```dockerfile
+ENV AUTO_SYNC_WACLI=true
+```
+
+**Requirements:**
+
+- wacli must be installed (via `install-skills`)
+- wacli must be authenticated (`wacli auth`)
+
+The daemon checks both conditions before starting and logs output to the
+console.
+
 ## Skill Dependency Overview
 
 | Skill              | Install Method | Binary / Package                |
